@@ -1,0 +1,42 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>New Tweets</title>
+<meta name="viewport" content="width=device-width, initial-scale=0.8">
+<link rel="stylesheet" href="app.css">
+
+<form id="search-form">
+  <input type="text" name="q">
+  <input type="submit" value="search">
+</form>
+
+<div id="items"><div id="initial">loading&hellip;</div></div>
+<div><a id="more" href="#more">more&hellip;</a></div>
+
+<script id="item-template" type="text/x-jquery-tmpl">
+  <div class="item {{if retweeted_status}}retweet{{/if}}">
+    <img src="${user.profile_image_url}" class="profile-image">
+
+    <div class="main">
+      <a class="meta" target="_blank" href="http://twitter.com/${user.screen_name}/status/${id_str}">
+        <span class="user">${user.screen_name}</span>
+        (<span class="followers">${user.followers_count}</span>)
+        <span class="created" title="${created_at}">${created_at}</span>
+      </a>
+
+      <div class="text">{{html text}}</div>
+
+      <div class="meta">
+      	{{if retweeted_status}}{{else}}
+	        {{if retweet_count > 0}}<span class="retweets">${retweet_count} RT</span>{{/if}}
+	        {{if favorite_count > 0}}<span class="favorites">${favorite_count} ★</span>{{/if}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="https://raw.github.com/protonet/jquery.inview/master/jquery.inview.min.js"></script>
+<script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+<script src="https://raw.github.com/rmm5t/jquery-timeago/master/jquery.timeago.js"></script>
+<script src="app.js"></script>

@@ -1,0 +1,19 @@
+html, body { background: #444; color: #000; font-family: Helvetica, Arial, sans-serif; font-size: 12px; }
+form { margin: 10px 0; }
+a { text-decoration: none; }
+
+#initial { color: white; text-align: center; padding: 20px; }
+
+#more { display: none; color: #fff; text-align: center; background: #444; padding: 10px; clear: both; float: none; }
+#more:hover { background-color: #000; }
+
+.profile-image { height: 48px; width: 48px; padding: 0 5px 0 2px; vertical-align: top; }
+
+.item { background: #fff; border: 1px solid #777; border-radius: 5px; padding: 5px; margin: 0 5px 5px 0; float:left;   }
+.item > div { display: inline-block; }
+.item .main { width: 300px; overflow: hidden; }
+.item .created, .item .created:visited { color: #777; font-size: 80%; }
+.item.new { background-color: #ff7; }
+.item.retweet { opacity: 0.75; }
+
+.item .meta { display: block; margin: 2px 0; color: #777; }
