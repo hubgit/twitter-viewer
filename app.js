@@ -27,7 +27,7 @@ function App(){
 
   this.twitterSearch = function(params, options){
     $.ajax({
-      url: "http://www.macropus.org/twitter/search.php" + params,
+      url: "http://www.macropus.org/twitter/" + params,
       success: function(data) {
         $("#initial").remove();
 
