@@ -76,10 +76,10 @@ function App(){
       return self.link(match, match);
     })
     .replace(/@([A-Za-z0-9_]+)/g, function (match, name) {
-      return self.link(match, "http://twitter.com/" + name);
+      return self.link(match, "https://twitter.com/" + name);
     })
     .replace(/#([A-Za-z0-9_\-]+)/g, function (match, name) {
-      return self.link(match, "http://search.twitter.com/search?q=%23" + name);
+      return self.link(match, "https://search.twitter.com/search?q=%23" + name);
     });
   };
 
