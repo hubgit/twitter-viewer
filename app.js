@@ -4,15 +4,10 @@ function App(){
     perPage = 100,
     refreshRate = 30000,
     noMoreTweets = false,
-    newElements = [],
-    filters = [
-      //"\\bRT\\b",
-      //"/ff\\.im/"
-    ];
+    newElements = [];
 
   this.init = function(){
     $.ajaxSetup({ cache: false });
-    filters = $.map(filters, function(value, key){ return new RegExp(value); });
 
     var matches = location.search.match(/\?q=(\w+)/);
     if (matches) {
@@ -69,16 +64,7 @@ function App(){
   };
 
   this.showTwitterItem = function(i, data){
-    //if (data.retweeted_status) {
-    //  return;
-    //}
-
-    for (var i in filters)
-      if (data["text"].match(filters[i]))
-        return;
-
     data["text"] = self.prepareTweet(data["text"]);
-    console.log(data);
 
     var item = $("#item-template").tmpl(data);
     newElements.push(item[0]);
