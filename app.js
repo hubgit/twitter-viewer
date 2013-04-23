@@ -22,7 +22,9 @@ function App(){
 
   this.twitterSearch = function(params, options){
     $.ajax({
+      type: "GET",
       url: "http://www.macropus.org/twitter/" + params,
+      dataType: "json",
       success: function(data) {
         $("#initial").remove();
 
