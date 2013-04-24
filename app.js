@@ -11,7 +11,7 @@ function App(){
 
     var matches = location.search.match(/\?q=([^&]+)/);
     if (matches) {
-    	var query = decodeURIComponent(matches[1]);
+    	var query = decodeURIComponent(matches[1]).replace(/\+/g, " ");
     	$("#search-form input[name=q]").val(query);
     	self.twitterSearch("?q=" + encodeURIComponent(query), { initial: true, more: true } );
     	$("#more").click(self.loadMore);
