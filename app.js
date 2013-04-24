@@ -9,7 +9,7 @@ function App(){
   this.init = function(){
     $.ajaxSetup({ cache: false });
 
-    var matches = location.search.match(/\?q=(\w+)/);
+    var matches = location.search.match(/\?q=([^&]+)/);
     if (matches) {
     	var query = matches[1];
     	$("#search-form input[name=q]").val(query);
