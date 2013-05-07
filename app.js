@@ -29,7 +29,7 @@ function App(){
         $("#initial").remove();
 
         if (options["update"] || options["initial"])
-          window.setTimeout(self.updateSearch, refreshRate, data["refresh_url"]);
+          window.setTimeout(self.updateSearch, refreshRate, data["search_metadata"]["refresh_url"]);
 
         if (!data["statuses"]) return false;
 
