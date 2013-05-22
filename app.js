@@ -106,7 +106,7 @@ function App(){
   };
 
   this.updateSearch = function(url){
-    self.twitterSearch(url, {}, { update: true });
+    self.twitterSearch(url, { update: true });
   };
 }
 
