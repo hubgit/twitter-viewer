@@ -80,8 +80,8 @@ function App(){
     .replace(/@([A-Za-z0-9_]+)/g, function (match, name) {
       return self.link(match, "https://twitter.com/" + name);
     })
-    .replace(/#([A-Za-z0-9_\-]+)/g, function (match, name) {
-      return self.link(match, "https://search.twitter.com/search?q=%23" + name);
+    .replace(/(#[A-Za-z0-9_\-]+)/g, function (match, name) {
+      return self.link(match, "https://twitter.com/search?f=realtime&q=" + encodeURIComponent(name));
     });
   };
 
