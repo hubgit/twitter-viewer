@@ -76,7 +76,7 @@ Polymer('tweet-collection', {
       this.refresh_url = response.search_metadata.refresh_url;
 
       if (this.refresh_url) {
-        window.setTimeout(this.refresh.bind(this), 6000);
+        window.setTimeout(this.refresh.bind(this), 60000);
       }
     }
 
