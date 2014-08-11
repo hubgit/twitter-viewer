@@ -19,8 +19,8 @@
       <template if="{{ !item.retweeted_status }}"><div id="text">{{ item.text }}</div></template>
 
       <div class="meta">
-        <template if="{{ item.retweets_count }}">
-          <span class="retweets">{{ item.retweets_count }} RT</span>
+        <template if="{{ item.retweet_count }}">
+          <span class="retweets">{{ item.retweet_count }} RT</span>
         </template>
 
         <template if="{{ item.favorite_count }}">
