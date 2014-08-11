@@ -60,7 +60,7 @@ Polymer('tweet-collection', {
       return;
     }
 
-    if (refreshing) { // refreshing
+    if (refreshing) {
       response.statuses.reverse();
     }
 
@@ -72,14 +72,16 @@ Polymer('tweet-collection', {
       }
     }.bind(this));
 
-    this.next_results = response.search_metadata.next_results;
-    this.refresh_url = response.search_metadata.refresh_url;
+    if (refreshing || !this.refresh_url) {
+      this.refresh_url = response.search_metadata.refresh_url;
 
-    if (this.refresh_url) {
-      if (this.refresh_timeout) {
-        this.refresh_timeout
+      if (this.refresh_url) {
+        window.setTimeout(this.refresh.bind(this), 6000);
       }
-      window.setTimeout(this.refresh.bind(this), 60000);
+    }
+
+    if (!refreshing) {
+      this.next_results = response.search_metadata.next_results;
     }
   },
   loadMore: function(event) {
