@@ -42,6 +42,10 @@ Polymer('tweet-collection', {
     var refreshing = !this.loading;
     this.loading = false;
 
+    if (!response.statuses) {
+      return;
+    }
+
     if (refreshing) { // refreshing
       response.statuses.reverse();
     }
