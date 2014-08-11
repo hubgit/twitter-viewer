@@ -1,0 +1,77 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+
+<polymer-element name="tweet-item" attributes="item">
+
+<template>
+  <link rel="stylesheet" href="tweet-item.css">
+
+  <div class="tweet {{ { retweet: item.retweeted_status } | tokenList }}" horizontal layout>
+    <div id="profile-image"><a target="_blank" href="https://twitter.com/{{ item.user.screen_name }}"><img src="{{ item.user.profile_image_url_https }}"></a></div>
+
+    <div id="main" flex>
+      <div><a class="meta" target="_blank" href="https://twitter.com/{{ item.user.screen_name }}/status/{{ item.id_str }}"><span class="user">{{ item.user.screen_name }}</span> (<span class="followers">{{ item.user.followers_count }}</span>) <time id="created" datetime="{{ item.created_at }}">{{ item.created_relative }}</span></a></div>
+
+      <div id="text">{{ item.text }}</div>
+
+      <div class="meta">
+        <template if="{{ item.retweets_count }}">
+          <span class="retweets">{{ item.retweets_count }} RT</span>
+        </template>
+
+        <template if="{{ item.favorite_count }}">
+          <span class="favorites">{{ item.favorite_count }} ★</span>
+        </template>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+Polymer('tweet-item', {
+  itemChanged: function() {
+    this.item.created_relative = moment(this.item.created_at).fromNow();
+  },
+  domReady: function() {
+    this.wrapEntities();
+  },
+  wrapEntities: function() {
+    var node = this.$.text.firstChild;
+
+    var entities = [];
+
+    if (this.item.entities.urls) {
+      this.item.entities.urls.forEach(function(entity) {
+        entities.push(entity);
+      });
+    }
+
+    if (this.item.entities.media) {
+      this.item.entities.media.forEach(function(entity) {
+        entities.push(entity);
+      });
+    }
+
+    entities.sort(function(a, b) {
+      return b.indices[0] - a.indices[0];
+    });
+
+    entities.forEach(function(entity) {
+      this.replaceWithLink(node, entity.indices[0], entity.indices[1], entity.expanded_url, entity.display_url)
+    }.bind(this));
+  },
+  replaceWithLink: function(node, startOffset, endOffset, url, text) {
+    var link = document.createElement('a');
+    link.href = url;
+    link.textContent = text;
+    link.setAttribute('target', '_blank');
+
+    var range = document.createRange();
+    range.setStart(node, startOffset);
+    range.setEnd(node, endOffset);
+    range.deleteContents();
+    range.insertNode(link);
+  }
+})
+</script>
+
+</polymer-element>

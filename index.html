@@ -1,48 +1,37 @@
 <!doctype html>
 <meta charset="utf-8">
-<title>New Tweets</title>
-<meta name="viewport" content="width=device-width, initial-scale=0.8">
-<link rel="stylesheet" href="app.css">
+<title>Tweets</title>
 
-<form id="search-form">
-  <input type="text" name="q" size="50">
-  <input type="submit" value="search">
-</form>
+<style>
+body {
+  background: #444;
+  color: #000;
+  font-family:
+  Helvetica, Arial, sans-serif;
+  font-size: 12px;
+}
+form {
+  margin-bottom: 10px;
+}
+</style>
 
-<div id="items"><div id="initial">loading&hellip;</div></div>
-<div><a id="more" href="#more">more&hellip;</a></div>
+<script src="bower_components/moment/moment.js"></script>
+<script src="url-query-parts.js"></script>
 
-<script id="item-template" type="text/x-jquery-tmpl">
-  <div class="item {{if retweeted_status}}retweet{{/if}}">
-    <img src="${user.profile_image_url}" class="profile-image">
+<script src="bower_components/platform/platform.js"></script>
+<link rel="import" href="tweet-collection.html">
 
-    <div class="main">
-      <a class="meta" target="_blank" href="https://twitter.com/${user.screen_name}/status/${id_str}">
-        <span class="user">${user.screen_name}</span>
-        (<span class="followers">${user.followers_count}</span>)
-        <span class="created" title="${created_at}">${created_at}</span>
-      </a>
+<body unresolved>
+  <form id="search"><input name="q" id="q" size="50"><button type="submit">search</button></form>
 
-      <div class="text">{{html text}}</div>
+  <tweet-collection q="peerj OR thepeerj OR peerjpreprints"></tweet-collection>
 
-      <div class="meta">
-      	{{if retweeted_status}}{{else}}
-	        {{if retweet_count > 0}}<span class="retweets">${retweet_count} RT</span>{{/if}}
-	        {{if favorite_count > 0}}<span class="favorites">${favorite_count} ★</span>{{/if}}
-        {{/if}}
-      </div>
-    </div>
-  </div>
-</script>
+  <script>
+  var params = (new URL(document.location)).params();
 
-<!--
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script src="https://raw.github.com/protonet/jquery.inview/master/jquery.inview.min.js"></script>
-<script src="https://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
-<script src="https://raw.github.com/rmm5t/jquery-timeago/master/jquery.timeago.js"></script>
--->
-<script src="lib/jquery.min.js"></script>
-<script src="lib/jquery.inview.min.js"></script>
-<script src="lib/jquery.tmpl.min.js"></script>
-<script src="lib/jquery.timeago.js"></script>
-<script src="app.js"></script>
+  if (params.q) {
+    document.getElementById('q').value = params.q;
+    document.querySelector('tweet-collection').setAttribute('q', params.q);
+  }
+  </script>
+</body>
