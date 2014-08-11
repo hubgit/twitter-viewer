@@ -4,7 +4,7 @@
   padding: 5px;
   margin: 0 5px 5px 0;
   float: left;
-  box-shadow: 0 1px 1px 2px #444;
+  box-shadow: 0 1px 5px #222;
   border-radius: 2px;
 }
 
@@ -18,6 +18,9 @@
 
 .meta {
   margin: 2px 0;
+}
+
+.meta a {
   color: #777;
 }
 
@@ -34,8 +37,9 @@ a {
   text-decoration: none;
 }
 
-a:visited {
-  color: #777;
+a:hover {
+  color: blue;
+  text-decoration: underline;
 }
 
 #profile-image img {

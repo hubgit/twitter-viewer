@@ -9,9 +9,14 @@
     <div id="profile-image"><a target="_blank" href="https://twitter.com/{{ item.user.screen_name }}"><img src="{{ item.user.profile_image_url_https }}"></a></div>
 
     <div id="main" flex>
-      <div><a class="meta" target="_blank" href="https://twitter.com/{{ item.user.screen_name }}/status/{{ item.id_str }}"><span class="user">{{ item.user.screen_name }}</span> (<span class="followers">{{ item.user.followers_count }}</span>) <time id="created" datetime="{{ item.created_at }}">{{ item.created_relative }}</span></a></div>
+      <div class="meta"><a target="_blank" href="https://twitter.com/{{ item.user.screen_name }}"><span class="user">{{ item.user.screen_name }}</span> (<span class="followers">{{ item.user.followers_count }}</span>)</a> <a target="_blank" href="https://twitter.com/{{ item.user.screen_name }}/status/{{ item.id_str }}"><time id="created" datetime="{{ item.created_at }}">{{ item.created_relative }}</time></a></div>
 
-      <div id="text">{{ item.text }}</div>
+      <template if="{{ item.retweeted_status }}">
+      <div class="meta">RT <a target="_blank" href="https://twitter.com/{{ item.retweeted_status.user.screen_name }}"><span class="user">{{ item.retweeted_status.user.screen_name }}</span> (<span class="followers">{{ item.retweeted_status.user.followers_count }}</span>)</a> <a target="_blank" href="https://twitter.com/{{ item.retweeted_status.user.screen_name }}/status/{{ item.retweeted_status.id_str }}"><time id="created" datetime="{{ item.retweeted_status.created_at }}">{{ item.retweeted_status.created_relative }}</time></a></div>
+      </template>
+
+      <template if="{{ item.retweeted_status }}"><div id="text">{{ item.retweeted_status.text }}</div></template>
+      <template if="{{ !item.retweeted_status }}"><div id="text">{{ item.text }}</div></template>
 
       <div class="meta">
         <template if="{{ item.retweets_count }}">
@@ -30,32 +35,37 @@
 Polymer('tweet-item', {
   itemChanged: function() {
     this.item.created_relative = moment(this.item.created_at).fromNow();
+
+    if (this.item.retweeted_status) {
+      this.item.retweeted_status.created_relative = moment(this.item.retweeted_status.created_at).fromNow();
+    }
   },
   domReady: function() {
     this.wrapEntities();
   },
   wrapEntities: function() {
-    var node = this.$.text.firstChild;
+    var node = this.shadowRoot.querySelector('#text').firstChild;
+    var entities = this.item.retweeted_status ? this.item.retweeted_status.entities : this.item.entities;
 
-    var entities = [];
+    var items = [];
 
-    if (this.item.entities.urls) {
-      this.item.entities.urls.forEach(function(entity) {
-        entities.push(entity);
+    if (entities.urls) {
+      entities.urls.forEach(function(entity) {
+        items.push(entity);
       });
     }
 
-    if (this.item.entities.media) {
-      this.item.entities.media.forEach(function(entity) {
-        entities.push(entity);
+    if (entities.media) {
+      entities.media.forEach(function(entity) {
+        items.push(entity);
       });
     }
 
-    entities.sort(function(a, b) {
+    items.sort(function(a, b) {
       return b.indices[0] - a.indices[0];
     });
 
-    entities.forEach(function(entity) {
+    items.forEach(function(entity) {
       this.replaceWithLink(node, entity.indices[0], entity.indices[1], entity.expanded_url, entity.display_url)
     }.bind(this));
   },
