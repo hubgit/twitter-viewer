@@ -1,3 +1,8 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
 #loading,
 #more {
   box-sizing: border-box;

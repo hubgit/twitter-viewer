@@ -6,9 +6,23 @@
 <template>
   <link rel="stylesheet" href="tweet-collection.css">
 
-  <template repeat="{{ items }}">
-    <tweet-item item="{{ }}"></tweet-item>
-  </template>
+  <div horizontal layout>
+    <div>
+      <template repeat="{{ item in items }}">
+        <template if="{{ ! item.retweeted_status }}">
+          <tweet-item item="{{ item }}"></tweet-item>
+        </template>
+      </template>
+    </div>
+
+    <div flex>
+      <template repeat="{{ item in items }}">
+        <template if="{{ item.retweeted_status }}">
+          <tweet-item item="{{ item }}"></tweet-item>
+        </template>
+      </template>
+    </div>
+  </div>
 
   <template if="{{ loading }}">
     <div id="loading">loading&hellip;</div>
