@@ -23,7 +23,7 @@
           <template if="{{ item.retweet_count }}">
             <span class="retweets">{{ item.retweet_count }} RT</span>
           </template>
-  
+
           <template if="{{ item.favorite_count }}">
             <span class="favorites">{{ item.favorite_count }} ★</span>
           </template>
@@ -36,14 +36,27 @@
 <script>
 Polymer('tweet-item', {
   itemChanged: function() {
+    this.setRelativeTime();
+    window.setInterval(this.setRelativeTime.bind(this), 10000);
+  },
+  domReady: function() {
+    this.wrapEntities();
+
+    // the "text" property of tweets is HTML-escaped
+    // need to reverse the double-escaping after linking the entities
+    this.unescapeHTML();
+  },
+  setRelativeTime: function() {
     this.item.created_relative = moment(this.item.created_at).fromNow();
 
     if (this.item.retweeted_status) {
       this.item.retweeted_status.created_relative = moment(this.item.retweeted_status.created_at).fromNow();
     }
   },
-  domReady: function() {
-    this.wrapEntities();
+  unescapeHTML: function() {
+    var node = this.shadowRoot.querySelector('#text');
+
+    node.innerHTML = node.innerHTML.replace(/&amp;(amp|gt|lt);/g, '&$1;');
   },
   wrapEntities: function() {
     var node = this.shadowRoot.querySelector('#text').firstChild;
