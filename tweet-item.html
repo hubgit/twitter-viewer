@@ -19,7 +19,7 @@
       <template if="{{ !item.retweeted_status }}"><div id="text">{{ item.text }}</div></template>
 
       <div class="meta">
-        <template if="{{ item.retweet_count }}">
+        <template if="{{ item.retweet_count && !item.retweeted_status }}">
           <span class="retweets">{{ item.retweet_count }} RT</span>
         </template>
 
