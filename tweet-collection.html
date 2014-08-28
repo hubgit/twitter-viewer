@@ -13,6 +13,14 @@
           <tweet-item item="{{ item }}"></tweet-item>
         </template>
       </template>
+      
+      <template if="{{ loading }}">
+        <div id="loading">loading&hellip;</div>
+      </template>
+    
+      <template if="{{ next_results }}">
+        <a id="more" href="{{ next_results }}" on-click="{{ loadMore }}">load more</a>
+      </template>
     </div>
 
     <div flex>
@@ -23,14 +31,6 @@
       </template>
     </div>
   </div>
-
-  <template if="{{ loading }}">
-    <div id="loading">loading&hellip;</div>
-  </template>
-
-  <template if="{{ next_results }}">
-    <a id="more" href="{{ next_results }}" on-click="{{ loadMore }}">load more</a>
-  </template>
 
   <core-ajax
     auto
