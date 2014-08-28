@@ -18,8 +18,17 @@
       <template if="{{ item.retweeted_status }}"><div id="text">{{ item.retweeted_status.text }}</div></template>
       <template if="{{ !item.retweeted_status }}"><div id="text">{{ item.text }}</div></template>
 
-      <template if="{{ !item.retweeted_status }}">
-        <div class="meta">
+      <div class="meta">
+        <template if="{{ item.retweeted_status }}">
+          <template if="{{ item.retweeted_status.retweet_count }}">
+            <span class="retweets">{{ item.retweeted_status.retweet_count }} RT</span>
+          </template>
+
+          <template if="{{ item.retweeted_status.favorite_count }}">
+            <span class="favorites">{{ item.retweeted_status.favorite_count }} ★</span>
+          </template>
+        </template>
+        <template if="{{ !item.retweeted_status }}">
           <template if="{{ item.retweet_count }}">
             <span class="retweets">{{ item.retweet_count }} RT</span>
           </template>
@@ -27,8 +36,8 @@
           <template if="{{ item.favorite_count }}">
             <span class="favorites">{{ item.favorite_count }} ★</span>
           </template>
-        </div>
-      </template>
+        </template>
+      </div>
     </div>
   </div>
 </template>
