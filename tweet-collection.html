@@ -8,6 +8,8 @@
 
   <div horizontal layout>
     <div>
+      <h2>Tweets</h2>
+      
       <template repeat="{{ item in items }}">
         <template if="{{ ! item.retweeted_status }}">
           <tweet-item item="{{ item }}"></tweet-item>
@@ -24,6 +26,8 @@
     </div>
 
     <div>
+      <h2>Retweets</h2>
+      
       <template repeat="{{ item in items }}">
         <template if="{{ item.retweeted_status }}">
           <tweet-item item="{{ item }}"></tweet-item>
