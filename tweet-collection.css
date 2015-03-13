@@ -3,6 +3,10 @@
   width: 100%;
 }
 
+h2 {
+  color: white;
+}
+
 #loading,
 #more {
   box-sizing: border-box;
