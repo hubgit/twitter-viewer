@@ -1,0 +1,47 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="tweet-item" attributes="item">
+
+<template>
+  <link rel="stylesheet" href="tweet-item.css">
+
+  <div class="tweet {{ { retweet: item.retweeted_status } | tokenList }}" horizontal layout>
+    <div id="profile-image"><a target="_blank" href="https://twitter.com/{{ item.user.screen_name }}"><img src="{{ item.user.profile_image_url_https }}"></a></div>
+
+    <div id="main" flex>
+      <div class="meta"><a target="_blank" href="https://twitter.com/{{ item.user.screen_name }}"><span class="user">{{ item.user.screen_name }}</span> (<span class="followers">{{ item.user.followers_count }}</span>)</a> <a target="_blank" href="https://twitter.com/{{ item.user.screen_name }}/status/{{ item.id_str }}"><time id="created" datetime="{{ item.created_at }}">{{ item.created_relative }}</time></a></div>
+
+      <template if="{{ item.retweeted_status }}">
+      <div class="meta">RT <a target="_blank" href="https://twitter.com/{{ item.retweeted_status.user.screen_name }}"><span class="user">{{ item.retweeted_status.user.screen_name }}</span> (<span class="followers">{{ item.retweeted_status.user.followers_count }}</span>)</a> <a target="_blank" href="https://twitter.com/{{ item.retweeted_status.user.screen_name }}/status/{{ item.retweeted_status.id_str }}"><time id="created" datetime="{{ item.retweeted_status.created_at }}">{{ item.retweeted_status.created_relative }}</time></a></div>
+      </template>
+
+      <template if="{{ item.retweeted_status }}"><div id="text">{{ item.retweeted_status.text }}</div></template>
+      <template if="{{ !item.retweeted_status }}"><div id="text">{{ item.text }}</div></template>
+
+      <div class="meta">
+        <template if="{{ item.retweeted_status }}">
+          <template if="{{ item.retweeted_status.retweet_count }}">
+            <span class="retweets">{{ item.retweeted_status.retweet_count }} RT</span>
+          </template>
+
+          <template if="{{ item.retweeted_status.favorite_count }}">
+            <span class="favorites">{{ item.retweeted_status.favorite_count }} ★</span>
+          </template>
+        </template>
+        <template if="{{ !item.retweeted_status }}">
+          <template if="{{ item.retweet_count }}">
+            <span class="retweets">{{ item.retweet_count }} RT</span>
+          </template>
+
+          <template if="{{ item.favorite_count }}">
+            <span class="favorites">{{ item.favorite_count }} ★</span>
+          </template>
+        </template>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script src="tweet-item.js"></script>
+
+</polymer-element>
