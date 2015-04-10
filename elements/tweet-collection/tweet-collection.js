@@ -7,9 +7,12 @@ Polymer({
       if (this.q) {
           this.params = { q: this.q };
           this.items = [];
-          this.loading = true;
-          this.$.search.go();
+          this.fetch();
       }
+  },
+  fetch: function() {
+    this.loading = true;
+    this.$.fetch.go();
   },
   handleResponse: function(event, details) {
     var response = details.response;
@@ -42,7 +45,7 @@ Polymer({
     }
 
     if (!refreshing) {
-      this.nextResults = response.search_metadata.nextResults;
+      this.nextResults = response.search_metadata.next_results;
     }
   },
   loadMore: function(event) {
@@ -50,9 +53,11 @@ Polymer({
     this.loading = true;
     this.params = (new URL('http://example.com/' + this.nextResults)).params();
     this.nextResults = false;
+    this.fetch();
   },
   refresh: function() {
     this.params = (new URL('http://example.com/' + this.refreshURL)).params();
     this.refreshURL = false;
+    this.fetch();
   }
 });
