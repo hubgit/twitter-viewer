@@ -22,7 +22,7 @@
           </template>
 
           <template if="{{ nextResults }}">
-            <a id="more" href="{{ nextResults }}" on-click="{{ loadMore }}">load more</a>
+            <a id="more" href="{{ nextResults }}" on-click="{{ loadOlder }}">load more</a>
           </template>
         </div>
 
@@ -40,18 +40,25 @@
           </template>
 
           <template if="{{ nextResults }}">
-            <a id="more" href="{{ nextResults }}" on-click="{{ loadMore }}">load more</a>
+            <a id="more" href="{{ nextResults }}" on-click="{{ loadOlder }}">load more</a>
           </template>
         </div>
       </div>
   </template>
 
   <core-ajax
-    id="fetch"
-    url="http://www.macropus.org/twitter/"
+    id="fetch-older"
+    url="https://www.macropus.org/twitter/"
     params="{{ params }}"
     handleAs="json"
-    on-core-response="{{handleResponse}}"></core-ajax>
+    on-core-response="{{handleOlderResponse}}"></core-ajax>
+
+  <core-ajax
+    id="fetch-newer"
+    url="https://www.macropus.org/twitter/"
+    params="{{ params }}"
+    handleAs="json"
+    on-core-response="{{handleNewerResponse}}"></core-ajax>
 </template>
 
 <script src="tweet-collection.js"></script>
