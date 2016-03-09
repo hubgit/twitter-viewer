@@ -7,57 +7,59 @@ Polymer({
       if (this.q) {
           this.params = { q: this.q };
           this.items = [];
-          this.fetch();
+          this.loading = true;
+          this.$['fetch-older'].go();
       }
   },
-  fetch: function() {
-    this.loading = true;
-    this.$.fetch.go();
-  },
-  handleResponse: function(event, details) {
+  handleOlderResponse: function(event, details) {
     var response = details.response;
 
-    var refreshing = !this.loading;
     this.loading = false;
 
-    if (!response.statuses) {
-      return;
-    }
+    if (response.statuses) {
+      var items = this.items;
 
-    if (refreshing) {
-      response.statuses.reverse();
-    }
+      response.statuses.forEach(function(status) {
+        items.push(status);
+      });
 
-    response.statuses.forEach(function(status) {
-      if (refreshing) {
-        this.items.unshift(status);
-      } else {
-        this.items.push(status);
-      }
-    }.bind(this));
-
-    if (refreshing || !this.refreshURL) {
-      this.refreshURL = response.search_metadata.refreshURL;
-
-      if (this.refreshURL) {
-        window.setTimeout(this.refresh.bind(this), 60000);
-      }
-    }
-
-    if (!refreshing) {
       this.nextResults = response.search_metadata.next_results;
+
+      if (!this.refreshURL) {
+        this.refreshURL = response.search_metadata.refresh_url;
+        window.setTimeout(this.loadNewer.bind(this), 60000);
+      }
     }
   },
-  loadMore: function(event) {
+  handleNewerResponse: function(event, details) {
+    var response = details.response;
+
+    if (response.statuses) {
+      var items = this.items;
+
+      response.statuses.reverse();
+
+      response.statuses.forEach(function(status) {
+        items.unshift(status);
+      });
+
+      this.refreshURL = response.search_metadata.refresh_url;
+    }
+
+    if (this.refreshURL) {
+      window.setTimeout(this.loadNewer.bind(this), 60000);
+    }
+  },
+  loadOlder: function(event) {
     event.preventDefault();
     this.loading = true;
     this.params = (new URL('http://example.com/' + this.nextResults)).params();
     this.nextResults = false;
-    this.fetch();
+    this.loading = true;
+    this.$['fetch-older'].go();
   },
-  refresh: function() {
+  loadNewer: function() {
     this.params = (new URL('http://example.com/' + this.refreshURL)).params();
-    this.refreshURL = false;
-    this.fetch();
+    this.$['fetch-newer'].go();
   }
 });
